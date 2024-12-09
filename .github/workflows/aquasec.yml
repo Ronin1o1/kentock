@@ -1,9 +1,9 @@
-#kh
+#khl
 name: build
 on:
   push:
     branches:
-      - master
+      - main
       
 jobs:
   aqua:
