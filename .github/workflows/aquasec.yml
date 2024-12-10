@@ -1,9 +1,8 @@
-#khl
 name: build
 on:
   push:
     branches:
-      - main
+      - master
       
 jobs:
   aqua:
@@ -24,7 +23,7 @@ jobs:
       - name: Run Aqua scanner
         uses: docker://aquasec/aqua-scanner:dev
         with:
-          args: trivy convert --format sarif --output results.sarif results.json 
+          args: trivy -d fs -f sarif -o results.sarif --scanners config,vuln,secret --sast --reachability . 
           # To customize which severities to scan for, add the following flag: --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
           # To enable SAST scanning, add: --sast
           # To enable npm/dotnet non-lock file scanning, add: --package-json / --dotnet-proj
@@ -68,4 +67,3 @@ jobs:
               --aqua-key "${{ secrets.AQUA_KEY }}" \
               --aqua-secret "${{ secrets.AQUA_SECRET }}" \
               --artifact-path "saargondocker/graphql-vuln:${{ github.sha }}" 
-
